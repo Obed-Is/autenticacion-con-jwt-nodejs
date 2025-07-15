@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de sesion</title>
+    <meta name="description" content="Inicio de sesion para prueba con JWT">
+    <script src="login.js" defer></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            width: 100%;
+            height: 100dvh;
+            display: grid;
+            place-items: center;
+            background-color: #DEDEDE;
+        }
+
+        main {
+            height: 500px;
+            width: 450px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background-color: #fff;
+            padding: 30px 50px;
+            border-radius: 7px;
+        }
+
+        .txt-prr {
+            color: #666666;
+        }
+
+        label {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            padding: 5px 7px;
+            border-radius: 7px;
+            border: 1px solid #DDDDDD;
+            outline: none;
+        }
+
+        button {
+            font-weight: 600;
+            align-self: flex-start;
+            cursor: pointer;
+            color: #fff;
+            background-color: #7736FF;
+            padding: 10px 15px;
+            border: 1px solid #DDDDDD;
+            border-radius: 7px;
+        }
+
+        a {
+            color: #7736FF;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .txt-error {
+            color: #666666;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <p class="txt-log"><b>Inicio de sesion</b></p>
+
+        <div>
+            <h1>Hola,<br> Bienvenido de nuevo</h1>
+            <p class="txt-prr">Ingresa tus credenciales para acceder nuevamente</p>
+        </div>
+
+        <form action="">
+            <label for="usuario">
+                Usuario
+                <input type="text" name="usuario" id="usuario">
+            </label>
+            <label for="contraseña">
+                contraseña
+                <input type="password" name="contraseña" id="contraseña">
+            </label>
+            <p class="txt-error"></p>
+            <% if (msgFalta) { %>
+                <p class="txt-error"><%= msgFalta %></p>
+            <% } %>
+        </form>
+
+        <button id="btn-log">Iniciar sesion</button>
+
+        <p class="txt-prr">No tienes una cuenta? <a href="/register">Registrate</a></p>
+    </main>
+
+</body>
+
+</html>
