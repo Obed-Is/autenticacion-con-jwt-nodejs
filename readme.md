@@ -49,6 +49,21 @@ Sigue estos sencillos pasos para tener el proyecto funcionando en tu entorno loc
    npm run dev
    ```
 
+## 🐳 Uso con Docker
+
+Si prefieres ejecutar la aplicación usando Docker, puedes hacerlo definiendo las siguientes variables de entorno:
+
+> Solo se deja la configuración previa a ejecutar docker, porque aun no se ha subido el Dockerfile al repositorio, se subirá próximamente.
+
+- `APP_PORT`: Define el puerto en el que la aplicación se ejecutará (por defecto es `3000`).
+- `SECRET_KEY_JWT`: Es la llave secreta utilizada para firmar los JWT.
+
+Ejemplo de cómo correr el contenedor:
+```bash
+docker build -t auth-jwt-nodejs .
+docker run -p 3000:3000 -e APP_PORT=3000 -e SECRET_KEY_JWT=tu_super_secreto auth-jwt-nodejs
+```
+
 ## 🎉 ¡Listo!
 
 Ya puedes comenzar a interactuar con la aplicación. ¡Disfruta explorando el código y aprendiendo sobre autenticación con JWT! :D
