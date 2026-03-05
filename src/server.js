@@ -19,7 +19,7 @@ app.use(router);
 const portApp = process.env.APP_PORT || 4000;
 
 app.listen(portApp, () => {
-    console.log(`servidor corriento en el puerto: ${portApp}\nhttp://localhost:${portApp}/login`);
+    console.log(`servidor corriento en el puerto: ${portApp}\nhttp://localhost:${portApp}/home`);
 })
 
 export default app;
