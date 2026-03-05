@@ -8,6 +8,13 @@
     <meta name="description" content="Inicio de sesion para prueba con JWT">
     <script src="login.js" defer></script>
     <style>
+        :root {
+            --color-primary: #2E4F40;
+            --color-secondary: #1a2b22;
+            --color-text: #F5F2EC;
+            --color-text-muted: #a8b5ad;
+        }
+
         * {
             padding: 0;
             margin: 0;
@@ -15,62 +22,123 @@
         }
 
         body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             width: 100%;
             height: 100dvh;
             display: grid;
             place-items: center;
-            background-color: #DEDEDE;
+            background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+            color: var(--color-text);
         }
 
         main {
-            height: 500px;
-            width: 450px;
+            width: 420px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            background-color: #fff;
-            padding: 30px 50px;
-            border-radius: 7px;
+            gap: 25px;
+            background-color: var(--color-secondary);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(214, 232, 227, 0.08);
+        }
+
+        .txt-log {
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        main h1 {
+            font-size: 1.8rem;
+            line-height: 1.3;
         }
 
         .txt-prr {
-            color: #666666;
+            color: var(--color-text-muted);
+            font-size: 0.95rem;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
         }
 
         label {
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
+            gap: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--color-text-muted);
         }
 
         input[type="text"],
         input[type="password"] {
-            padding: 5px 7px;
-            border-radius: 7px;
-            border: 1px solid #DDDDDD;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid rgba(214, 232, 227, 0.15);
             outline: none;
+            background-color: rgba(46, 79, 64, 0.3);
+            color: var(--color-text);
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: rgba(214, 232, 227, 0.35);
+            box-shadow: 0 0 0 3px rgba(46, 79, 64, 0.4);
+        }
+
+        input::placeholder {
+            color: rgba(168, 181, 173, 0.5);
         }
 
         button {
+            font-family: inherit;
+            font-size: 1rem;
             font-weight: 600;
-            align-self: flex-start;
             cursor: pointer;
-            color: #fff;
-            background-color: #7736FF;
-            padding: 10px 15px;
-            border: 1px solid #DDDDDD;
-            border-radius: 7px;
+            color: var(--color-text);
+            background-color: var(--color-primary);
+            padding: 12px 20px;
+            border: none;
+            border-radius: 50px;
+            transition: background-color 0.2s ease-out, transform 0.15s ease;
+        }
+
+        button:hover {
+            background-color: #3a6350;
+        }
+
+        button:active {
+            transform: scale(0.98);
         }
 
         a {
-            color: #7736FF;
+            color: #4ade80;
             font-weight: 600;
             text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            color: #6ee7a0;
         }
 
         .txt-error {
-            color: #666666;
+            color: #f87171;
+            font-size: 0.85rem;
+        }
+
+        .footer-text {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
         }
     </style>
 </head>
@@ -87,21 +155,22 @@
         <form action="">
             <label for="usuario">
                 Usuario
-                <input type="text" name="usuario" id="usuario">
+                <input type="text" name="usuario" id="usuario" placeholder="Tu nombre de usuario">
             </label>
             <label for="contraseña">
-                contraseña
-                <input type="password" name="contraseña" id="contraseña">
+                Contraseña
+                <input type="password" name="contraseña" id="contraseña" placeholder="Tu contraseña">
             </label>
-            <p class="txt-error"></p>
             <% if (msgFalta) { %>
-                <p class="txt-error"><%= msgFalta %></p>
-            <% } %>
+                <p class="txt-error">
+                    <%= msgFalta %>
+                </p>
+                <% } %>
         </form>
 
         <button id="btn-log">Iniciar sesion</button>
 
-        <p class="txt-prr">No tienes una cuenta? <a href="/register">Registrate</a></p>
+        <p class="footer-text">No tienes una cuenta? <a href="/register">Registrate</a></p>
     </main>
 
 </body>

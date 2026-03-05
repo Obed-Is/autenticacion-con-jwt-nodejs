@@ -8,38 +8,34 @@ const btnRegistro = document.getElementById('btn-reg');
 
 btnRegistro.addEventListener('click', () => {
     const name = nameInput.value;
-    const lastName = lastNameInput.value;
     const username = userInput.value;
     const password = passInput.value;
 
-    if (!username || !password || !name || !lastName) return msjRespuesta.innerHTML = "Para completar el registro ingrese sus credenciales";
+    //aqui solo se valida de manera basica que los campos no esten vacios
+    if (!username || !password || !name) return msjRespuesta.innerHTML = "Para completar el registro ingrese sus credenciales";
 
-    registerUser(name, lastName, username, password);
+    registerUser(name, username, password);
 })
 
-async function registerUser(name, lastName, username, password) {
+async function registerUser(name, username, password) {
     try {
-        const ftReg = await fetch('/register/user', {
+        const request = await fetch('/register', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
             },
             credentials: 'same-origin',
-            body: JSON.stringify({ name, lastName, username, password })
+            body: JSON.stringify({ name, username, password })
         })
 
-        const res = await ftReg.json();
+        const res = await request.json();
 
-        if (!ftReg.ok) {
-            return msjRespuesta.innerHTML = res.message;
-        };
+        if (!request.ok) return msjRespuesta.innerHTML = res.message;
 
-        if (res.success) {
-            msjRespuesta.innerHTML = res.message;
-            console.log(res.accessToken)
-            window.location.href = "/protected";
-        }
+        if (!res.session) return msjRespuesta.innerHTML = "Ocurrio un error al intentar iniciar sesion";
 
+        //solo redirije hacia home para detectar la sesion
+        window.location.href = "/home";
     } catch (error) {
         console.log(error)
         msjRespuesta.innerHTML = "Ocurrio un error al intentar registrarse";
