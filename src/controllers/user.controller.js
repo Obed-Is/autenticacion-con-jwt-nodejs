@@ -93,6 +93,12 @@ const createSesion = async (req, res) => {
     }
 };
 
+const logout = (req, res) => {
+    res.clearCookie('accessToken');
+    res.clearCookie('refreshToken');
+    res.json({ success: true, message: 'Sesion cerrada correctamente' });
+}
+
 const controllerProtected = (req, res) => {
     const username = req.username;
 
@@ -108,7 +114,8 @@ const userControllers = {
     controllNewUser,
     controllLogin,
     createSesion,
-    controllerProtected
+    controllerProtected,
+    logout
 }
 
 export default userControllers;

@@ -10,6 +10,8 @@ router.get('/home', sessionMiddle, userControllers.controllHome);
 
 router.get('/login', redirectMiddle, userControllers.controllLogin);
 
+router.post('/logout', userControllers.logout);
+
 router.post('/register', userControllers.controllNewUser)
 
 router.post('/login', userControllers.createSesion)
