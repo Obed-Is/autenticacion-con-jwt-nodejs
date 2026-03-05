@@ -161,11 +161,11 @@
                 Contraseña
                 <input type="password" name="contraseña" id="contraseña" placeholder="Tu contraseña">
             </label>
-            <% if (msgFalta) { %>
-                <p class="txt-error">
+            <p class="txt-error">
+                <% if (msgFalta) { %>
                     <%= msgFalta %>
-                </p>
-                <% } %>
+                        <% } %>
+            </p>
         </form>
 
         <button id="btn-log">Iniciar sesion</button>

@@ -13,12 +13,12 @@ export function createAccesToken(_id, username) {
 export function createRefreshToken(_id, username) {
     return jwt.sign(
         { _id, username, typeToken: "refresh" },
-        process.env.SECRET_KEY_JWT,
-        { expiresIn: "1m" }
+        process.env.SECRET_KEY_JWT_REFRESH,
+        { expiresIn: "5m" }
     );
 }
 
-export function getPayload(token) {
+export async function getPayload(token) {
     return jwt.decode(token);
 }
 
@@ -44,7 +44,7 @@ export async function verifyRefreshToken(token, username) {
         if (user.hashRefresh !== hashedToken) return null;
 
         //si es el mismo solo verificamos que el token no haya expirado
-        return jwt.verify(token, process.env.SECRET_KEY_JWT);
+        return jwt.verify(token, process.env.SECRET_KEY_JWT_REFRESH);
     } catch (error) {
         return null;
     }

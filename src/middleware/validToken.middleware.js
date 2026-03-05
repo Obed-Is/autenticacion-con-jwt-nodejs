@@ -19,7 +19,7 @@ export const sessionMiddle = async (req, res, next) => {
             return res.render(path.join(__dirname, '../views/home.ejs'), { session: false, username: null });
         }
 
-        const payload = getPayload(accessToken);
+        const payload = await getPayload(accessToken);
 
         if (!verifyAccessToken(accessToken)) {
             const validRefreshToken = await verifyRefreshToken(refreshToken, payload.username);
@@ -43,6 +43,30 @@ export const sessionMiddle = async (req, res, next) => {
         next();
     } catch (error) {
         console.error('error en sessionMiddle:', error.message);
+        return res
+            .clearCookie("accessToken")
+            .clearCookie("refreshToken")
+            .render(path.join(__dirname, '../views/home.ejs'), { session: false, username: null });
+    }
+}
+
+/**
+ * Valida si el usuario tiene una sesion activa y lo redirije a la pagina de inicio
+ * @param {import('express').Request} req request de la peticion
+ * @param {import('express').Response} res response de la peticion
+ * @param {import('express').NextFunction} next next de la peticion para continuarss
+ * @returns {Promise<void>}
+ */
+export const redirectMiddle = async (req, res, next) => {
+    try {
+        const { accessToken, refreshToken } = req.cookies;
+
+        if (!accessToken || !refreshToken) {
+            return next();
+        }
+
+        return res.redirect('/home');
+    } catch (error) {
         return res
             .clearCookie("accessToken")
             .clearCookie("refreshToken")

@@ -32,9 +32,9 @@ async function registerUser(name, username, password) {
 
         if (!request.ok) return msjRespuesta.innerHTML = res.message;
 
-        if (!res.session) return msjRespuesta.innerHTML = "Ocurrio un error al intentar iniciar sesion";
+        if (!res.success) return msjRespuesta.innerHTML = "Ocurrio un error al intentar iniciar sesion";
 
-        //solo redirije hacia home para detectar la sesion
+        //solo redirije hacia home para detectar la sesion luego de que se procese la peticion
         window.location.href = "/home";
     } catch (error) {
         console.log(error)

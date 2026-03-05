@@ -1,6 +1,6 @@
 import path from 'node:path';
 import { UsersData } from '../database.js'
-import { createAccesToken, createRefreshToken, verifyAccessToken, getPayload, verifyRefreshToken } from '../helpers/token.helper.js';
+import { createAccesToken, createRefreshToken } from '../helpers/token.helper.js';
 import { createHash } from 'node:crypto';
 
 const __dirname = import.meta.dirname;
@@ -43,25 +43,54 @@ const controllNewUser = async (req, res) => {
             .cookie('accessToken', accessToken, {
                 httpOnly: true,
             })
-            .json({ session: true, message: 'Accediendo...' });
+            .json({ success: true, message: 'Accediendo...' });
     } catch (error) {
         return res.status(500).json({ success: false, message: 'Ocurrió un error al intentar crear el usuario.' });
     }
 };
 
 const controllLogin = (req, res) => {
-
     res.render(path.join(__dirname, '../views/login.ejs'), { msgFalta: null });
 };
 
-const controllLoginUser = (req, res) => {
-    const accessToken = req.cookies.accessToken;
+const createSesion = async (req, res) => {
+    try {
+        const { username, pass } = req.body;
 
-    if (!accessToken) {
+        if (!username || !pass) {
+            return res.status(400).json({ success: false, message: 'Faltan credenciales' });
+        }
 
+        const user = await UsersData.findUser(username);
+        if (!user) {
+            return res
+                .status(401)
+                .json({ success: false, message: 'Credenciales incorrectas' });
+
+        }
+
+        const hashPassword = await createHash('sha256').update(pass).digest('hex');
+        if (hashPassword !== user.hashPassword)
+            return res
+                .status(401)
+                .json({ success: false, message: 'Credenciales incorrectas' });
+
+        const refreshToken = createRefreshToken(user._id, user.username);
+        const hashRefresh = createHash('sha256').update(refreshToken).digest('hex');
+
+        await UsersData.updateTokenUser(user._id, hashRefresh);
+
+        return res
+            .cookie('accessToken', createAccesToken(user._id, user.username), {
+                httpOnly: true,
+            })
+            .cookie('refreshToken', refreshToken, {
+                httpOnly: true,
+            })
+            .json({ success: true, message: 'Accediendo...' });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: 'Ocurrió un error al intentar iniciar la sesion.' });
     }
-    // console.log(req.cookies)
-    res.json({ message: 'hola' })
 };
 
 const controllerProtected = (req, res) => {
@@ -78,7 +107,7 @@ const userControllers = {
     controllRegister,
     controllNewUser,
     controllLogin,
-    controllLoginUser,
+    createSesion,
     controllerProtected
 }
 
