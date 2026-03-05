@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        :root {
+            --color-primary: #2E4F40;
+            --color-secondary: #1a2b22;
+            --color-text: #F5F2EC;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+            color: var(--color-text);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            width: 100%;
+            min-height: 100dvh;
+        }
+
+        main {
+            width: 90%;
+            height: 100%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .welcome {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            height: 100%;
+            gap: 5px;
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            p {
+                font-size: 1.2rem;
+                color: var(--color-text-secondary);
+            }
+        }
+
+        .state-session {
+            width: fit-content;
+            background: rgba(26, 43, 34, 0.6);
+            border: 1px solid rgba(214, 232, 227, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            font-weight: 500;
+            padding: 12px 24px;
+            border-radius: 50px;
+            margin: 30px auto;
+        }
+
+        #state {
+            color: #4ade80;
+            background: rgba(74, 222, 128, 0.1);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+        }
+
+        .inactive-session {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            height: 100%;
+            width: 400px;
+            margin: 0 auto;
+            background-color: var(--color-secondary);
+            border-radius: 10px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            gap: 5px;
+
+            h3 {
+                font-size: 1.5rem;
+            }
+
+            p {
+                font-size: 1.2rem;
+                color: var(--color-text-secondary);
+            }
+        }
+
+        #btn-log {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 10px;
+            border-radius: 50px;
+            border: none;
+            background-color: var(--color-primary);
+            color: var(--color-text);
+            font-size: 1.2rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            transition: background-color 0.2s ease-out;
+        }
+
+        #btn-log:hover {
+            background-color: var(--color-secondary);
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <section class="welcome">
+            <h1>Bienvenido al panel principal</h1>
+            <p>Aqui podras gestionar el estado de tu sesion para comprobar el funcionamiento de los tokens</p>
+        </section>
+
+        <div class="state-session">
+            <p>Estado de la sesion
+                <span id="state">
+                    <% if(session) { %>Activa
+                        <% } else { %>Inactiva<% } %>
+                </span>
+            </p>
+        </div>
+
+        <% if(!session) { %>
+            <section class="inactive-session">
+                <h3>Parece que no tienes una sesion activa</h3>
+                <p>Inicia sesion para poder acceder a las funcionalidades de la pagina</p>
+                <a id="btn-log" href="/login">Iniciar sesion</a>
+            </section>
+            <% } %>
+    </main>
+
+</body>
+
+</html>
