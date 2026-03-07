@@ -34,6 +34,11 @@ async function registerUser(name, username, password) {
 
         if (!res.success) return msjRespuesta.innerHTML = "Ocurrio un error al intentar iniciar sesion";
 
+        const durationAccessToken = res.tokensDuration.accessToken;
+        const durationRefreshToken = res.tokensDuration.refreshToken;
+        localStorage.setItem('durationAccessToken', Date.now() + durationAccessToken);
+        localStorage.setItem('durationRefreshToken', Date.now() + durationRefreshToken);
+
         //solo redirije hacia home para detectar la sesion luego de que se procese la peticion
         window.location.href = "/home";
     } catch (error) {

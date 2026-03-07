@@ -29,6 +29,11 @@ async function loginUser(username, pass) {
             return pErrorMsj.textContent = res.message;
         }
 
+        const durationAccessToken = res.tokensDuration.accessToken;
+        const durationRefreshToken = res.tokensDuration.refreshToken;
+        localStorage.setItem('durationAccessToken', Date.now() + durationAccessToken);
+        localStorage.setItem('durationRefreshToken', Date.now() + durationRefreshToken);
+
         return window.location.href = "/home";
     } catch (err) {
         console.log(err)

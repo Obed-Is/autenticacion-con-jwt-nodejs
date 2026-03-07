@@ -15,9 +15,11 @@ export const sessionMiddle = async (req, res, next) => {
     try {
         const { accessToken, refreshToken } = req.cookies;
 
-        if (!accessToken || !refreshToken) {
-            return res.render(path.join(__dirname, '../views/home.ejs'), { session: false, username: null });
-        }
+        if (!accessToken || !refreshToken)
+            return res
+                .clearCookie("accessToken")
+                .clearCookie("refreshToken")
+                .render(path.join(__dirname, '../views/home.ejs'), { session: false, success: false, username: null });
 
         const payload = await getPayload(accessToken);
 
@@ -34,7 +36,7 @@ export const sessionMiddle = async (req, res, next) => {
                 return res
                     .clearCookie("accessToken")
                     .clearCookie("refreshToken")
-                    .render(path.join(__dirname, '../views/home.ejs'), { session: false, username: null });
+                    .render(path.join(__dirname, '../views/home.ejs'), { session: false, success: false, username: null });
             }
         }
 
@@ -71,6 +73,37 @@ export const redirectMiddle = async (req, res, next) => {
             .clearCookie("accessToken")
             .clearCookie("refreshToken")
             .render(path.join(__dirname, '../views/home.ejs'), { session: false, username: null });
+    }
+}
+
+export const timerMiddle = async (req, res, next) => {
+    try {
+        const { accessToken, refreshToken } = req.cookies;
+
+        if (!accessToken || !refreshToken) {
+            return res
+                .clearCookie("accessToken")
+                .clearCookie("refreshToken")
+                .render(path.join(__dirname, '../views/home.ejs'), { session: false, success: false, username: null });
+        }
+
+        if (!verifyAccessToken(accessToken)) {
+            const payload = await getPayload(accessToken);
+            const newToken = createAccesToken(payload._id, payload.username);
+            res.cookie('accessToken', newToken, {
+                httpOnly: true,
+            })
+            req.currentAccessToken = newToken;
+        } else {
+            req.currentAccessToken = accessToken;
+        }
+
+        next();
+    } catch (error) {
+        return res
+            .clearCookie("accessToken")
+            .clearCookie("refreshToken")
+            .render(path.join(__dirname, '../views/home.ejs'), { session: false, success: false, username: null });
     }
 }
 

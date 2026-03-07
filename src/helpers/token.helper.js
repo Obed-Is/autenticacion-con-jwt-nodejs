@@ -6,7 +6,7 @@ export function createAccesToken(_id, username) {
     return jwt.sign(
         { _id, username },
         process.env.SECRET_KEY_JWT,
-        { expiresIn: "5s" }
+        { expiresIn: "1m" }
     );
 }
 

@@ -95,7 +95,7 @@
 
             p {
                 font-size: 1.2rem;
-                color: var(--color-text-secondary);
+                color: var(--color-text);
             }
         }
 
@@ -144,6 +144,118 @@
         .btn-logout:hover {
             background: rgba(26, 43, 34, 0.8);
         }
+
+        .control-session {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+            padding: 0 10px;
+        }
+
+        .card-info {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            background: rgba(26, 43, 34, 0.45);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(214, 232, 227, 0.08);
+            border-radius: 16px;
+            padding: 28px 24px;
+            gap: 12px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .card-info:hover {
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border-color: rgba(74, 222, 128, 0.2);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(74, 222, 128, 0.1);
+            border-radius: 12px;
+            margin-bottom: 4px;
+        }
+
+        .card-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke: #4ade80;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .card-info h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        .card-info .card-desc {
+            font-size: 0.85rem;
+            color: rgba(245, 242, 236, 0.5);
+            line-height: 1.4;
+        }
+
+        .timer-display {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: #4ade80;
+            background: rgba(74, 222, 128, 0.08);
+            padding: 10px 22px;
+            border-radius: 10px;
+            border: 1px solid rgba(74, 222, 128, 0.15);
+            min-width: 120px;
+        }
+
+        .card-info .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            margin-top: 6px;
+            border-radius: 50px;
+            border: 1px solid rgba(74, 222, 128, 0.25);
+            background: linear-gradient(135deg, rgba(46, 79, 64, 0.8), rgba(26, 43, 34, 0.9));
+            color: #4ade80;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
+
+        .card-info .btn-action:hover {
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.2), rgba(46, 79, 64, 0.8));
+            border-color: rgba(74, 222, 128, 0.5);
+            box-shadow: 0 0 20px rgba(74, 222, 128, 0.15);
+        }
+
+        .card-info .btn-action svg {
+            width: 16px;
+            height: 16px;
+            stroke: #4ade80;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .expired {
+            font-size: 1.2rem;
+            background: rgba(239, 68, 68, 0.08);
+            border-color: rgba(239, 68, 68, 0.15);
+        }
     </style>
 </head>
 
@@ -168,11 +280,57 @@
                 <% } %>
         </section>
 
-        <% if(!session) { %>
-            <section class="inactive-session">
-                <h3>Parece que no tienes una sesion activa</h3>
-                <p>Inicia sesion para poder acceder a las funcionalidades de la pagina</p>
-                <a id="btn-log" href="/login">Iniciar sesion</a>
+        <div class="ct">
+            <% if(!session) { %>
+                <section class="inactive-session">
+                    <h3>Parece que no tienes una sesion activa</h3>
+                    <p>Inicia sesion para poder acceder a las funcionalidades de la pagina</p>
+                    <a id="btn-log" href="/login">Iniciar sesion</a>
+                </section>
+                <% } %>
+        </div>
+
+
+        <% if(session) { %>
+            <section class="control-session">
+                <div class="card-info">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" />
+                            <polyline points="12 6 12 12 16 14" />
+                        </svg>
+                    </div>
+                    <h3>Token de acceso</h3>
+                    <p class="card-desc">Tiempo restante del token de acceso</p>
+                    <p class="timer-display" id="accessToken">00:00</p>
+                </div>
+                <div class="card-info">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24">
+                            <polyline points="23 4 23 10 17 10" />
+                            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+                        </svg>
+                    </div>
+                    <h3>Token de refresco</h3>
+                    <p class="card-desc">Tiempo restante del token de refresco</p>
+                    <p class="timer-display" id="refreshToken">00:00</p>
+                </div>
+                <div class="card-info">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                        </svg>
+                    </div>
+                    <h3>Acciones</h3>
+                    <p class="card-desc">Accede a recursos que requieren autenticación</p>
+                    <a class="btn-action" href="/protected">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M5 12h14" />
+                            <path d="M12 5l7 7-7 7" />
+                        </svg>
+                        Contenido protegido
+                    </a>
+                </div>
             </section>
             <% } %>
     </main>
