@@ -108,10 +108,13 @@ const logout = (req, res) => {
 // ESTO SOLO RETORNA UN NUEVO TIEMPO AL FINALIZAR UN TOKEN DE ACCESO
 const timerToken = async (req, res) => {
     const accessToken = req.currentAccessToken;
-    const { exp } = await getPayload(accessToken);
-    const tiempoRestante = (exp * 1000) - Date.now();
+    const { refreshToken } = req.cookies;
+    const { exp: expRefreshToken } = await getPayload(refreshToken);
+    const { exp: expAccessToken } = await getPayload(accessToken);
+    const tiempoRestanteAccessToken = (expAccessToken * 1000) - Date.now();
+    const tiempoRestanteRefreshToken = (expRefreshToken * 1000) - Date.now();
 
-    return res.json({ success: true, durationAccessToken: tiempoRestante });
+    return res.json({ success: true, durationAccessToken: tiempoRestanteAccessToken, durationRefreshToken: tiempoRestanteRefreshToken });
 }
 
 const controllerProtected = (req, res) => {

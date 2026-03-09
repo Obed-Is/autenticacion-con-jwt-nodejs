@@ -18,6 +18,6 @@ router.post('/register', userControllers.controllNewUser)
 
 router.post('/login', userControllers.createSesion)
 
-router.get('/protected', validAccessToken, userControllers.controllerProtected)
+router.get('/protected', sessionMiddle, userControllers.controllerProtected)
 
 export default router;
