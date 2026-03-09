@@ -26,11 +26,15 @@ const logout = async () => {
     }
 }
 
+let intervalToken;
+actualizarTimer();
+intervalToken = setInterval(actualizarTimer, 1000);
+
 /**
  * Actualiza el tiempo restante del token de acceso y del token de refresco
  */
 async function actualizarTimer() {
-    if (!localStorage.getItem('durationAccessToken')) {
+    if (!localStorage.getItem('durationAccessToken') && localStorage.getItem('durationRefreshToken')) {
         await obtenerTimerToken();
     }
 
@@ -74,9 +78,6 @@ async function actualizarTimer() {
     }
 }
 
-actualizarTimer();
-const intervalToken = setInterval(actualizarTimer, 1000);
-
 /**
  * Hace una llamada al servidor para obtener el tiempo del token de acceso expirado
  */
@@ -103,7 +104,7 @@ async function obtenerTimerToken() {
             return;
         }
     } catch (error) {
-        console.log(error)
+        console.log('error en obtenerTimerToken:', error);
         return;
     }
 }
