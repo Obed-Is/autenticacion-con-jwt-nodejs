@@ -34,47 +34,56 @@ intervalToken = setInterval(actualizarTimer, 1000);
  * Actualiza el tiempo restante del token de acceso y del token de refresco
  */
 async function actualizarTimer() {
-    if (!localStorage.getItem('durationAccessToken') && localStorage.getItem('durationRefreshToken')) {
-        await obtenerTimerToken();
-    }
+    try {
+        const elemAccessToken = document.getElementById('accessToken');
+        const elemRefreshToken = document.getElementById('refreshToken');
 
-    const elemAccessToken = document.getElementById('accessToken');
-    const elemRefreshToken = document.getElementById('refreshToken');
+        const durationAccessToken = localStorage.getItem('durationAccessToken');
+        const durationRefreshToken = localStorage.getItem('durationRefreshToken');
 
-    const durationAccessToken = localStorage.getItem('durationAccessToken');
-    const durationRefreshToken = localStorage.getItem('durationRefreshToken');
+        // si alguno de los 2 no existe, se intenta obtener el tiempo del token de acceso expirado
+        if (!durationAccessToken || !durationRefreshToken) {
+            // si los 2 no existen, se detiene el intervalo
+            if (!durationAccessToken && !durationRefreshToken) {
+                return clearInterval(intervalToken);
+            }
+            await obtenerTimerToken();
+        }
 
-    const accessTokenRestante = Math.max(0, Math.floor((durationAccessToken - Date.now()) / 1000));
-    const refreshTokenRestante = Math.floor((durationRefreshToken - Date.now()) / 1000);
+        const accessTokenRestante = Math.max(0, Math.floor((durationAccessToken - Date.now()) / 1000));
+        const refreshTokenRestante = Math.floor((durationRefreshToken - Date.now()) / 1000);
 
-    if (elemAccessToken === null || elemRefreshToken === null) {
-        localStorage.removeItem('durationAccessToken');
-        localStorage.removeItem('durationRefreshToken');
+        if (elemAccessToken === null || elemRefreshToken === null) {
+            localStorage.removeItem('durationAccessToken');
+            localStorage.removeItem('durationRefreshToken');
+            return;
+        }
+
+        const minutosAccessToken = Math.floor(accessTokenRestante / 60);
+        const segundosAccessToken = accessTokenRestante % 60;
+        const minutosRefreshToken = Math.floor(refreshTokenRestante / 60);
+        const segundosRefreshToken = refreshTokenRestante % 60;
+
+        if (accessTokenRestante <= 1) {
+            localStorage.removeItem('durationAccessToken');
+            elemAccessToken.classList.add('expired');
+            elemAccessToken.textContent = "El token de acceso ha expirado";
+        } else {
+            elemAccessToken.classList.remove('expired');
+            elemAccessToken.textContent = `${minutosAccessToken.toString().padStart(2, '0')}:${segundosAccessToken.toString().padStart(2, '0')}`;
+        }
+
+        if (refreshTokenRestante <= 0 || !durationRefreshToken) {
+            clearInterval(intervalToken);
+            elemRefreshToken.classList.add('expired');
+            return elemRefreshToken.textContent = "El token de refresco ha expirado, por favor recargar la pagina";
+        } else {
+            elemRefreshToken.classList.remove('expired');
+            elemRefreshToken.textContent = `${minutosRefreshToken.toString().padStart(2, '0')}:${segundosRefreshToken.toString().padStart(2, '0')}`;
+        }
+    } catch (error) {
+        console.log('error en actualizarTimer:', error);
         return;
-    }
-
-
-    const minutosAccessToken = Math.floor(accessTokenRestante / 60);
-    const segundosAccessToken = accessTokenRestante % 60;
-    const minutosRefreshToken = Math.floor(refreshTokenRestante / 60);
-    const segundosRefreshToken = refreshTokenRestante % 60;
-
-    if (accessTokenRestante <= 0) {
-        localStorage.removeItem('durationAccessToken');
-        elemAccessToken.classList.add('expired');
-        elemAccessToken.textContent = "El token de acceso ha expirado";
-    } else {
-        elemAccessToken.classList.remove('expired');
-        elemAccessToken.textContent = `${minutosAccessToken.toString().padStart(2, '0')}:${segundosAccessToken.toString().padStart(2, '0')}`;
-    }
-
-    if (refreshTokenRestante <= 0) {
-        clearInterval(intervalToken);
-        elemRefreshToken.classList.add('expired');
-        return elemRefreshToken.textContent = "El token de refresco ha expirado, por favor recargar la pagina";
-    } else {
-        elemRefreshToken.classList.remove('expired');
-        elemRefreshToken.textContent = `${minutosRefreshToken.toString().padStart(2, '0')}:${segundosRefreshToken.toString().padStart(2, '0')}`;
     }
 }
 
@@ -100,6 +109,10 @@ async function obtenerTimerToken() {
             localStorage.setItem(
                 'durationAccessToken',
                 String(Date.now() + response.durationAccessToken)
+            );
+            localStorage.setItem(
+                'durationRefreshToken',
+                String(Date.now() + response.durationRefreshToken)
             );
             return;
         }
