@@ -5,10 +5,22 @@ const pErrorMsj = document.querySelector('.txt-error');
 const btnLogin = document.getElementById('btn-log');
 
 btnLogin.addEventListener('click', async () => {
-    const username = userInput.value;
+    const username = userInput.value.trim();
     const password = passInput.value;
 
-    if (!username || !password) return pErrorMsj.textContent = "Para poder acceder debe ingresar sus credenciales";
+    if (!username || !password) {
+        return pErrorMsj.textContent = "Para poder acceder debe ingresar sus credenciales.";
+    }
+
+    if (username.length < 4 || !/^[a-zA-Z0-9_]+$/.test(username)) {
+        return pErrorMsj.textContent = "Usuario o contraseña invalidos.";
+    }
+
+    if (password.length < 4) {
+        return pErrorMsj.textContent = "Usuario o contraseña invalidos.";
+    }
+
+    pErrorMsj.textContent = ""; // Limpiar errores previos
 
     await loginUser(username, password)
 })

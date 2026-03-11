@@ -21,6 +21,22 @@ const controllNewUser = async (req, res) => {
     try {
         const { name, username, password } = req.body;
 
+        if (!name || !username || !password) {
+            return res.status(400).json({ success: false, message: 'Todos los campos son obligatorios.' });
+        }
+
+        if (name.length < 3 || !/^[a-zA-Z\s]+$/.test(name)) {
+            return res.status(400).json({ success: false, message: 'Nombre invalido: debe tener al menos 3 caracteres (letras y espacios).' });
+        }
+
+        if (username.length < 4 || !/^[a-zA-Z0-9_]+$/.test(username)) {
+            return res.status(400).json({ success: false, message: 'Usuario invalido: debe tener al menos 4 caracteres (solo letras, números y guiones bajos).' });
+        }
+
+        if (password.length < 4) {
+            return res.status(400).json({ success: false, message: 'Contraseña insuficiente: debe tener al menos 4 caracteres.' });
+        }
+
         const userDuplicate = await UsersData.findUser(username);
         if (userDuplicate)
             return res
@@ -65,7 +81,15 @@ const createSesion = async (req, res) => {
         const { username, pass } = req.body;
 
         if (!username || !pass) {
-            return res.status(400).json({ success: false, message: 'Faltan credenciales' });
+            return res.status(400).json({ success: false, message: 'Faltan credenciales.' });
+        }
+
+        if (username.length < 4 || !/^[a-zA-Z0-9_]+$/.test(username)) {
+            return res.status(400).json({ success: false, message: 'Formato de usuario inválido.' });
+        }
+
+        if (pass.length < 4) {
+            return res.status(400).json({ success: false, message: 'Formato de contraseña inválido.' });
         }
 
         const user = await UsersData.findUser(username);

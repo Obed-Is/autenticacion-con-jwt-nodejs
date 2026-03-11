@@ -7,13 +7,35 @@ const msjRespuesta = document.querySelector('.txt-error');
 const btnRegistro = document.getElementById('btn-reg');
 
 btnRegistro.addEventListener('click', () => {
-    const name = nameInput.value;
-    const username = userInput.value;
+    const name = nameInput.value.trim();
+    const username = userInput.value.trim();
     const password = passInput.value;
 
-    //aqui solo se valida de manera basica que los campos no esten vacios
-    if (!username || !password || !name) return msjRespuesta.innerHTML = "Para completar el registro ingrese sus credenciales";
+    if (!name || !username || !password) {
+        return msjRespuesta.innerHTML = "Todos los campos son obligatorios.";
+    }
 
+    if (name.length < 3) {
+        return msjRespuesta.innerHTML = "El nombre debe tener al menos 3 caracteres.";
+    }
+
+    if (!/^[a-zA-Z\s]+$/.test(name)) {
+        return msjRespuesta.innerHTML = "El nombre solo debe contener letras y espacios.";
+    }
+
+    if (username.length < 4) {
+        return msjRespuesta.innerHTML = "El usuario debe tener al menos 4 caracteres.";
+    }
+
+    if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+        return msjRespuesta.innerHTML = "El usuario solo puede contener letras, números y guiones bajos.";
+    }
+
+    if (password.length < 4) {
+        return msjRespuesta.innerHTML = "La contraseña debe tener al menos 4 caracteres.";
+    }
+
+    msjRespuesta.innerHTML = ""; // Limpiar errores previos
     registerUser(name, username, password);
 })
 

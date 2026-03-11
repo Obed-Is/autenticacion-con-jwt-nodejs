@@ -12,6 +12,7 @@ const __dirname = import.meta.dirname;
 
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'scripts')));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(cookieParser());
@@ -20,9 +21,11 @@ app.use(router);
 
 const portApp = process.env.PORT || 4000;
 
-app.listen(portApp, () => {
-    console.log(`servidor corriento en el puerto: ${portApp}\nhttp://localhost:${portApp}/home`);
-})
+if (process.env.NODE_ENV != "production") {
+    app.listen(portApp, () => {
+        console.log(`servidor corriento en el puerto: ${portApp}\nhttp://localhost:${portApp}/home`);
+    })
+}
 
 app.use((req, res) => res.status(404).render(path.join(__dirname, "./views/notFound.ejs")));
 
