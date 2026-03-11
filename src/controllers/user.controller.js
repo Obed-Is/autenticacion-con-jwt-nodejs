@@ -118,13 +118,10 @@ const timerToken = async (req, res) => {
 }
 
 const controllerProtected = (req, res) => {
-    const username = req.username;
-
+    const { username } = req.user;
 
     res.render(path.join(__dirname, '../views/protected.ejs'), { username })
 }
-
-
 
 const userControllers = {
     controllHome,

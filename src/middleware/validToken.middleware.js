@@ -121,7 +121,6 @@ export function validAccessToken(req, res, next) {
         req.username = payload.username;
         next()
     } catch (error) {
-        console.log("error al validar el token: ", error.message);
         if (error.message === "jwt expired") {
             return renovAccessToken(req, res, next);
         }

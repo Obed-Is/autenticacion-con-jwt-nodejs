@@ -21,6 +21,7 @@
         }
 
         body {
+            position: relative;
             background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
             color: var(--color-text);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -55,7 +56,8 @@
 
         .state-session {
             width: fit-content;
-            background: rgba(26, 43, 34, 0.6);
+            background: rgba(46, 79, 64, 0.5);
+
             border: 1px solid rgba(214, 232, 227, 0.1);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
             font-weight: 500;
@@ -81,22 +83,53 @@
             justify-content: center;
             text-align: center;
             height: 100%;
-            width: 400px;
+            width: 100%;
+            max-width: 500px;
             margin: 0 auto;
             background-color: var(--color-secondary);
-            border-radius: 10px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            padding: 20px;
-            gap: 5px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            gap: 20px;
+            border: 1px solid rgba(214, 232, 227, 0.08);
 
             h3 {
-                font-size: 1.5rem;
+                font-size: 1.8rem;
+                color: var(--color-accent);
             }
 
             p {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
                 color: var(--color-text);
+                opacity: 0.9;
             }
+        }
+
+        .features-list {
+            text-align: left;
+            margin: 10px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+            color: var(--color-text-secondary);
+            background: rgba(46, 79, 64, 0.2);
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(74, 222, 128, 0.1);
+        }
+
+        .feature-item svg {
+            width: 18px;
+            height: 18px;
+            stroke: #4ade80;
+            flex-shrink: 0;
         }
 
         #btn-log {
@@ -124,17 +157,18 @@
             justify-content: center;
             align-items: center;
             gap: 10px;
+            flex-wrap: wrap;
         }
 
         .btn-logout {
-            background: rgba(26, 43, 34, 0.6);
+            background: rgba(46, 79, 64, 0.5);
             border-radius: 50px;
             border: 1px solid rgba(214, 232, 227, 0.1);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
             padding: 10px 24px;
             text-decoration: none;
             color: var(--color-text);
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 500;
             cursor: pointer;
             text-align: center;
@@ -256,11 +290,131 @@
             background: rgba(239, 68, 68, 0.08);
             border-color: rgba(239, 68, 68, 0.15);
         }
+
+        .icon-github {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            height: 25px;
+            width: 25px;
+            z-index: 10;
+        }
+
+        .faq-section {
+            margin-top: 60px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            padding: 0 10px;
+        }
+
+        .faq-title {
+            text-align: center;
+            font-size: 2rem;
+            color: var(--color-accent);
+        }
+
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .faq-item {
+            background: rgba(26, 43, 34, 0.45);
+            border: 1px solid rgba(214, 232, 227, 0.08);
+            padding: 24px;
+            border-radius: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: rgba(74, 222, 128, 0.2);
+        }
+
+        .faq-item h4 {
+            color: var(--color-accent);
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .faq-item p {
+            color: rgba(245, 242, 236, 0.7);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Responsive Improvements */
+        @media (max-width: 768px) {
+            .welcome h1 {
+                font-size: 2rem;
+            }
+
+            .welcome p {
+                font-size: 1rem;
+            }
+
+            .inactive-session {
+                padding: 30px 20px;
+            }
+
+            .inactive-session h3 {
+                font-size: 1.5rem;
+            }
+
+            .faq-title {
+                font-size: 1.7rem;
+            }
+
+            .icon-github {
+                position: fixed;
+                background: var(--color-secondary);
+                padding: 5px;
+                border-radius: 50%;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            }
+        }
+
+        @media (max-width: 480px) {
+            main {
+                width: 95%;
+                padding: 10px;
+            }
+
+            .welcome h1 {
+                font-size: 1.7rem;
+            }
+
+            .state-session {
+                padding: 10px 18px;
+                font-size: 0.9rem;
+            }
+
+            .timer-display {
+                font-size: 1.5rem;
+                padding: 8px 16px;
+                min-width: 100px;
+            }
+
+            .faq-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 
 <body>
     <main>
+        <a href="https://github.com/Obed-Is/autenticacion-con-jwt-nodejs" target="_blank" class="icon-github">
+            <svg viewBox="0 0 1024 1024" fill="none">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M8 0C3.58 0 0 3.58 0 8C0 11.54 2.29 14.53 5.47 15.59C5.87 15.66 6.02 15.42 6.02 15.21C6.02 15.02 6.01 14.39 6.01 13.72C4 14.09 3.48 13.23 3.32 12.78C3.23 12.55 2.84 11.84 2.5 11.65C2.22 11.5 1.82 11.13 2.49 11.12C3.12 11.11 3.57 11.7 3.72 11.94C4.44 13.15 5.59 12.81 6.05 12.6C6.12 12.08 6.33 11.73 6.56 11.53C4.78 11.33 2.92 10.64 2.92 7.58C2.92 6.71 3.23 5.99 3.74 5.43C3.66 5.23 3.38 4.41 3.82 3.31C3.82 3.31 4.49 3.1 6.02 4.13C6.66 3.95 7.34 3.86 8.02 3.86C8.7 3.86 9.38 3.95 10.02 4.13C11.55 3.09 12.22 3.31 12.22 3.31C12.66 4.41 12.38 5.23 12.3 5.43C12.81 5.99 13.12 6.7 13.12 7.58C13.12 10.65 11.25 11.33 9.47 11.53C9.76 11.78 10.01 12.26 10.01 13.01C10.01 14.08 10 14.94 10 15.21C10 15.42 10.15 15.67 10.55 15.59C13.71 14.53 16 11.53 16 8C16 3.58 12.42 0 8 0Z"
+                    transform="scale(64)" fill="#ffff" />
+            </svg>
+        </a>
         <section class="welcome">
             <h1>Bienvenido al panel principal</h1>
             <p>Aqui podras gestionar el estado de tu sesion para comprobar el funcionamiento de los tokens</p>
@@ -283,13 +437,43 @@
         <div class="ct">
             <% if(!session) { %>
                 <section class="inactive-session">
-                    <h3>Parece que no tienes una sesion activa</h3>
-                    <p>Inicia sesion para poder acceder a las funcionalidades de la pagina</p>
-                    <a id="btn-log" href="/login">Iniciar sesion</a>
+                    <h3>¿Listo para explorar JWT?</h3>
+                    <p>Inicia sesión para desbloquear todas las herramientas de gestión de tokens:</p>
+
+                    <div class="features-list">
+                        <div class="feature-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                            </svg>
+                            <span>Manejo avanzado de Access y Refresh Tokens</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10" />
+                                <polyline points="12 6 12 12 16 14" />
+                            </svg>
+                            <span>Tiempos de expiración en tiempo real</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                            </svg>
+                            <span>Guía educativa técnica sobre seguridad JWT</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M23 4v6h-6M1 20v-6h6" />
+                                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
+                            </svg>
+                            <span>Simulación de renovación automática</span>
+                        </div>
+                    </div>
+
+                    <a id="btn-log" href="/login">Acceder ahora</a>
                 </section>
                 <% } %>
         </div>
-
 
         <% if(session) { %>
             <section class="control-session">
@@ -330,6 +514,70 @@
                         </svg>
                         Contenido protegido
                     </a>
+                </div>
+            </section>
+
+
+            <section class="faq-section">
+                <h2 class="faq-title">Preguntas Frecuentes</h2>
+                <div class="faq-grid">
+                    <div class="faq-item">
+                        <h4>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10" />
+                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                                <line x1="12" y1="17" x2="12.01" y2="17" />
+                            </svg>
+                            ¿Por qué usar dos tokens?
+                        </h4>
+                        <p>El Access Token es de corta duración para minimizar riesgos si es robado. El Refresh Token
+                            permite obtener nuevos accesos sin pedir credenciales constantemente, manteniéndose guardado
+                            de forma más segura.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                            </svg>
+                            ¿Qué pasa si cierro la pestaña?
+                        </h4>
+                        <p>Gracias a que usamos Cookies, tu sesión persiste. Al volver a abrir la página, el navegador
+                            enviará los tokens automáticamente y seguirás autenticado hasta que expiren o cierres sesión
+                            manualmente.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path
+                                    d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3L15.5 7.5z" />
+                            </svg>
+                            ¿Cómo se renueva el token?
+                        </h4>
+                        <p>En cada petición a la API, el servidor verifica las cookies enviadas por el navegador, valida
+                            la firma del token y comprueba que no haya expirado.
+                            Si el <strong>Access Token</strong> ha vencido, se valida el <strong>Refresh Token</strong>
+                            y se genera un nuevo
+                            <strong>Access Token</strong> automáticamente.
+                        </p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                            </svg>
+                            ¿Qué tan seguras son las cookies?
+                        </h4>
+                        <p>Usamos la bandera <strong>HTTPOnly</strong>, lo que significa que ningún script de JavaScript
+                            puede acceder a ellas, protegiéndote contra ataques de robo de tokens (XSS). Aunque no es
+                            una medida 100% implenetrable es altamente recomendable usar cookies seguras en lugar del
+                            localStorage o sessionStorage.</p>
+                    </div>
                 </div>
             </section>
             <% } %>

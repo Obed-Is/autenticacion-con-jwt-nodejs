@@ -42,26 +42,6 @@ async function registerUser(name, username, password) {
         //solo redirije hacia home para detectar la sesion luego de que se procese la peticion
         window.location.href = "/home";
     } catch (error) {
-        console.log(error)
         msjRespuesta.innerHTML = "Ocurrio un error al intentar registrarse";
     }
 }
-
-// async function cambiarPagina(token) {
-//     try {
-//         const response = await fetch(`/protected`, {
-//             headers: {
-//                 authorization: `Bearer ${token}`
-//             }
-//         });
-
-//         if (!response.ok) {
-//             return msjRespuesta.innerHTML = response.msg;
-//         }
-
-//     } catch (error) {
-//         console.log(error);
-//         return msjRespuesta.innerHTML = error.message || "Ocurrio un error al iniciar la sesion";
-//     }
-
-// }
