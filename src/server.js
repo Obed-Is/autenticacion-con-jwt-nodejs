@@ -21,11 +21,11 @@ app.use(router);
 
 const portApp = process.env.PORT || 4000;
 
-if (process.env.NODE_ENV != "production") {
-    app.listen(portApp, () => {
+app.listen(portApp, () => {
+    if (process.env.NODE_ENV != "production") {
         console.log(`servidor corriento en el puerto: ${portApp}\nhttp://localhost:${portApp}/home`);
-    })
-}
+    }
+})
 
 app.use((req, res) => res.status(404).render(path.join(__dirname, "./views/notFound.ejs")));
 
