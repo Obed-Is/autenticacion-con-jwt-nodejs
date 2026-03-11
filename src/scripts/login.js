@@ -24,7 +24,6 @@ async function loginUser(username, pass) {
         });
 
         const res = await ftLog.json();
-        console.log(res)
         if (!res.success) {
             return pErrorMsj.textContent = res.message;
         }
@@ -36,7 +35,6 @@ async function loginUser(username, pass) {
 
         return window.location.href = "/home";
     } catch (err) {
-        console.log(err)
         pErrorMsj.innerHTML = "Ocurrio un error al intentar iniciar la sesion";
     }
 }

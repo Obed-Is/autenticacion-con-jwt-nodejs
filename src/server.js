@@ -22,4 +22,6 @@ app.listen(portApp, () => {
     console.log(`servidor corriento en el puerto: ${portApp}\nhttp://localhost:${portApp}/home`);
 })
 
+app.use((req, res) => res.status(404).render(path.join(__dirname, "./views/notFound.ejs")));
+
 export default app;

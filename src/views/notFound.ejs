@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404 — Página no encontrada</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #2E4F40;
+            --color-secondary: #1a2b22;
+            --color-text: #F5F2EC;
+            --color-text-dim: rgba(245, 242, 236, 0.6);
+            --color-accent: #4ade80;
+            --card-bg: rgba(26, 43, 34, 0.8);
+            --border-color: rgba(214, 232, 227, 0.1);
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+            color: var(--color-text);
+            font-family: 'Outfit', 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 560px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 50px 40px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .error-label {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--color-accent);
+            margin-bottom: 24px;
+        }
+
+        .error-code {
+            font-size: clamp(5rem, 18vw, 9rem);
+            font-weight: 700;
+            line-height: 1;
+            color: var(--color-text);
+            margin-bottom: 8px;
+        }
+
+        .error-code span {
+            color: var(--color-accent);
+        }
+
+        h1 {
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: var(--color-text);
+            margin-bottom: 12px;
+        }
+
+        p {
+            font-size: 0.95rem;
+            color: var(--color-text-dim);
+            line-height: 1.7;
+            margin-bottom: 36px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 24px;
+            background: var(--color-accent);
+            color: var(--color-secondary);
+            border: none;
+            border-radius: 50px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.85;
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 24px;
+            background: rgba(46, 79, 64, 0.5);
+            color: var(--color-text);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-primary);
+        }
+
+        .divider {
+            width: 4px;
+            height: 40px;
+            background: var(--color-accent);
+            border-radius: 2px;
+            margin: 0 auto 28px;
+        }
+
+        .footer {
+            margin-top: 28px;
+            font-size: 0.8rem;
+            color: var(--color-text-dim);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="card">
+            <div class="divider"></div>
+            <div class="error-label">Error de navegación</div>
+
+            <div class="error-code">4<span>0</span>4</div>
+
+            <h1>Página no encontrada</h1>
+            <p>La ruta que buscas no existe o fue movida.<br>Revisa la URL o regresa al inicio.</p>
+
+            <div class="actions">
+                <a href="/home" class="btn-primary">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 12L12 3l9 9" />
+                        <path d="M9 21V12h6v9" />
+                    </svg>
+                    Ir al Inicio
+                </a>
+                <a href="javascript:history.back()" class="btn-secondary">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 12H5" />
+                        <path d="M12 19l-7-7 7-7" />
+                    </svg>
+                    Volver atrás
+                </a>
+            </div>
+        </div>
+
+        <div class="footer">Zona Protegida — JWT Demo</div>
+    </div>
+
+</body>
+
+</html>
