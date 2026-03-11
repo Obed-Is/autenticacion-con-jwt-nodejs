@@ -1,6 +1,7 @@
 import path from 'node:path';
 import jwt from 'jsonwebtoken';
 import { createAccesToken, getPayload, verifyAccessToken, verifyRefreshToken } from '../helpers/token.helper.js';
+import { cookieConfig } from '../../config.js';
 
 const __dirname = import.meta.dirname;
 
@@ -30,7 +31,7 @@ export const sessionMiddle = async (req, res, next) => {
                 const newAccessToken = createAccesToken(validRefreshToken._id, validRefreshToken.username);
                 //si el token de refresco es valido, se crea un nuevo token de acceso y se envia al cliente
                 res.cookie("accessToken", newAccessToken, {
-                    httpOnly: true,
+                    ...cookieConfig
                 });
             } else {
                 return res
@@ -91,7 +92,7 @@ export const timerMiddle = async (req, res, next) => {
             const payload = await getPayload(accessToken);
             const newToken = createAccesToken(payload._id, payload.username);
             res.cookie('accessToken', newToken, {
-                httpOnly: true,
+                ...cookieConfig
             })
             req.currentAccessToken = newToken;
         } else {

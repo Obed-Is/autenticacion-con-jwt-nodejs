@@ -383,7 +383,6 @@
 
                 localStorage.removeItem('durationAccessToken');
                 localStorage.removeItem('durationRefreshToken');
-                clearInterval(intervalToken);
 
                 await Swal.fire("Sesion cerrada", "Tu sesion ha sido cerrada correctamente", "success");
                 window.location.href = '/home';

@@ -2,6 +2,7 @@ import path from 'node:path';
 import { UsersData } from '../database.js'
 import { createAccesToken, createRefreshToken, getPayload } from '../helpers/token.helper.js';
 import { createHash } from 'node:crypto';
+import { cookieConfig } from '../../config.js';
 
 const __dirname = import.meta.dirname;
 
@@ -38,10 +39,10 @@ const controllNewUser = async (req, res) => {
 
         return res.status(201)
             .cookie('refreshToken', refreshToken, {
-                httpOnly: true,
+                ...cookieConfig
             })
             .cookie('accessToken', accessToken, {
-                httpOnly: true,
+                ...cookieConfig
             })
             .json({ success: true, message: 'Accediendo...', tokensDuration: { accessToken: 1000 * 60, refreshToken: 1000 * 60 * 5 } });
     } catch (error) {
@@ -88,10 +89,10 @@ const createSesion = async (req, res) => {
 
         return res
             .cookie('accessToken', createAccesToken(user._id, user.username), {
-                httpOnly: true,
+                ...cookieConfig
             })
             .cookie('refreshToken', refreshToken, {
-                httpOnly: true,
+                ...cookieConfig
             })
             .json({ success: true, message: 'Accediendo...', tokensDuration: { accessToken: 1000 * 60, refreshToken: 1000 * 60 * 5 } });
     } catch (error) {
