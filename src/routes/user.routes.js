@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import userControllers from '../controllers/user.controller.js';
-import { sessionMiddle, validAccessToken, redirectMiddle, timerMiddle } from '../middleware/validToken.middleware.js';
+import { sessionMiddle, redirectMiddle, timerMiddle } from '../middleware/validToken.middleware.js';
 
 const router = Router();
 
