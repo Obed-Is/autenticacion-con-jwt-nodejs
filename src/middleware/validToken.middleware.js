@@ -1,5 +1,4 @@
 import path from 'node:path';
-import jwt from 'jsonwebtoken';
 import { createAccesToken, getPayload, verifyAccessToken, verifyRefreshToken } from '../helpers/token.helper.js';
 import { cookieConfig } from '../../config.js';
 

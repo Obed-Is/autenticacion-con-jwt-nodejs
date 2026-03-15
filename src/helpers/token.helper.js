@@ -1,6 +1,8 @@
 import jwt from 'jsonwebtoken';
-import { UsersData } from '../database.js';
+import { UsersDb } from '../dbSqlServer.js';
 import { createHash } from 'node:crypto';
+
+const usersDb = new UsersDb();
 
 export function createAccesToken(_id, username) {
     return jwt.sign(
@@ -39,9 +41,9 @@ export function verifyAccessToken(token) {
 export async function verifyRefreshToken(token, username) {
     try {
         const hashedToken = createHash('sha256').update(token).digest('hex');
-        const user = await UsersData.findUser(username);
+        const user = await usersDb.findUser(username);
         //comparamos si el hasheado en nuestros datos es el mismo que el token que recibimos del cliente
-        if (user.hashRefresh !== hashedToken) return null;
+        if (user.refresh_token_hash !== hashedToken) return null;
 
         //si es el mismo solo verificamos que el token no haya expirado
         return jwt.verify(token, process.env.SECRET_KEY_JWT_REFRESH);
