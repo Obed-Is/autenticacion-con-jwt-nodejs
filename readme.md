@@ -49,6 +49,32 @@ Sigue estos sencillos pasos para tener el proyecto funcionando en tu entorno loc
    npm run dev
    ```
 
+## 🗄️ Base de datos SQL Server
+
+Para implementar la persistencia de datos con **SQL Server**, debes configurar las variables de entorno para la conexión y crear las tablas necesarias en tu base de datos.
+
+### 1. Variables de Entorno
+
+Asegúrate de agregar las siguientes variables en tu archivo `.env`:
+
+```env
+DB_USER=tu_usuario
+DB_PWD=tu_contraseña
+DB_NAME=nombre_de_la_base_de_datos
+DB_HOST=localhost # o el nombre de tu servidor/instancia (ej. localhost\SQLEXPRESS)
+```
+
+### 2. Script SQL
+
+Ejecuta el script del archivo `authJwtNode.sql` en tu gestor de base de datos SQL Server para crear las tablas `users` y `controlToken`:
+
+Luego podras acceder con las credenciales demo o registrarte en la aplicacion.
+
+```bash
+usuario: demo1
+contraseña: demo1
+```
+
 ## 🐳 Uso con Docker
 
 Si prefieres ejecutar la aplicación usando Docker, puedes hacerlo definiendo las siguientes variables de entorno:
