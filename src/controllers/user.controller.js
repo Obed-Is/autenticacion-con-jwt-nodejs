@@ -1,10 +1,11 @@
 import path from 'node:path';
-import { UsersData } from '../database.js'
 import { createAccesToken, createRefreshToken, getPayload } from '../helpers/token.helper.js';
 import { createHash } from 'node:crypto';
 import { cookieConfig } from '../../config.js';
+import { UsersDb } from '../dbSqlServer.js';
 
 const __dirname = import.meta.dirname;
+const usersDb = new UsersDb();
 
 const controllHome = async (req, res) => {
     if (!req.user) return res.render(path.join(__dirname, "../views/home.ejs"), { session: false, username: null });
@@ -37,22 +38,27 @@ const controllNewUser = async (req, res) => {
             return res.status(400).json({ success: false, message: 'Contraseña insuficiente: debe tener al menos 4 caracteres.' });
         }
 
-        const userDuplicate = await UsersData.findUser(username);
-        if (userDuplicate)
+        const userDuplicateDb = await usersDb.findUser(username);
+        if (userDuplicateDb)
             return res
                 .status(409)
                 .json({ success: false, message: 'El nombre de usuario ya ha sido tomado, ingrese uno distinto' });
 
         const hashPassword = await createHash('sha256').update(password).digest('hex');
-        const userId = await UsersData.createUser(name, username, hashPassword);
 
-        const accessToken = createAccesToken(userId, username);
-        const refreshToken = createRefreshToken(userId, username);
+        const userIdDb = await usersDb.createUser(name, username, hashPassword);
+
+        const accessToken = createAccesToken(userIdDb, username);
+        const refreshToken = createRefreshToken(userIdDb, username);
 
         const hashRefresh = await createHash('sha256').update(refreshToken).digest('hex');
 
-        await UsersData.updateTokenUser(userId, hashRefresh);
-
+        const existTokenUser = await usersDb.existTokenUser(userIdDb);
+        if (existTokenUser) {
+            await usersDb.updateTokenUser(userIdDb, hashRefresh);
+        } else {
+            await usersDb.createTokenUser(userIdDb, hashRefresh);
+        }
         return res.status(201)
             .cookie('refreshToken', refreshToken, {
                 ...cookieConfig
@@ -92,7 +98,7 @@ const createSesion = async (req, res) => {
             return res.status(400).json({ success: false, message: 'Formato de contraseña inválido.' });
         }
 
-        const user = await UsersData.findUser(username);
+        const user = await usersDb.findUser(username);
         if (!user) {
             return res
                 .status(401)
@@ -101,18 +107,23 @@ const createSesion = async (req, res) => {
         }
 
         const hashPassword = await createHash('sha256').update(pass).digest('hex');
-        if (hashPassword !== user.hashPassword)
+        if (hashPassword !== user.password_hash)
             return res
                 .status(401)
                 .json({ success: false, message: 'Credenciales incorrectas' });
 
-        const refreshToken = createRefreshToken(user._id, user.username);
+        const refreshToken = createRefreshToken(user.id, user.username);
         const hashRefresh = createHash('sha256').update(refreshToken).digest('hex');
 
-        await UsersData.updateTokenUser(user._id, hashRefresh);
+        const existTokenUser = await usersDb.existTokenUser(user.id);
+        if (existTokenUser) {
+            await usersDb.updateTokenUser(user.id, hashRefresh);
+        } else {
+            await usersDb.createTokenUser(user.id, hashRefresh);
+        }
 
         return res
-            .cookie('accessToken', createAccesToken(user._id, user.username), {
+            .cookie('accessToken', createAccesToken(user.id, user.username), {
                 ...cookieConfig
             })
             .cookie('refreshToken', refreshToken, {
